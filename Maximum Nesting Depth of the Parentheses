@@ -1,0 +1,21 @@
+Approach : Stack
+Time complexity : O(n)
+Space complexity : O(n)
+
+class Solution {
+    public int maxDepth(String s) {
+        Stack<Character> st = new Stack<>();
+        int result = 0;
+        for(char ch : s.toCharArray()){
+            if(ch == '('){
+                st.push('(');
+            }
+            else if(ch == ')'){
+                st.pop();
+            }
+
+            result = Math.max(result, st.size()); 
+        }
+        return result;
+    }
+}
