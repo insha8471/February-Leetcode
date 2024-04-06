@@ -1,0 +1,40 @@
+Time complexity : O(n)
+Space complexity : O(n)
+
+
+class Solution {
+    public String minRemoveToMakeValid(String s) {
+        int lastOpen = 0;
+        StringBuilder result = new StringBuilder("");
+        for(char ch : s.toCharArray()){
+            if(ch >= 'a' && ch <= 'z'){
+                result.append(ch);
+            }else if(ch == '('){
+                result.append(ch);
+                lastOpen++;
+            }else if(lastOpen > 0){
+                result.append(ch);
+                lastOpen--;
+            }
+        }
+
+        StringBuilder finalRes = new StringBuilder("");
+        int lastclose = 0;
+
+        for(int i=result.length()-1;i>=0;i--){
+            char ch = result.charAt(i);
+
+            if(ch >= 'a' && ch <= 'z'){
+                finalRes.insert(0, ch);
+            }else if(ch == ')'){
+                finalRes.insert(0, ch);
+                lastclose++;
+            }else if(lastclose > 0){
+                finalRes.insert(0, ch);
+                lastclose--;
+            }
+        }
+
+        return finalRes.toString();
+    }
+}
