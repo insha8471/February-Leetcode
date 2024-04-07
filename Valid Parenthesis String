@@ -1,0 +1,42 @@
+Approach : Recursion + Memoization
+
+Time complexity : O(n*n)
+Space complexity : O(1)
+
+
+class Solution {
+    public boolean solve(int idx , int open, String s, int[][] t){
+        if(idx == s.length()){
+            return open==0;
+        }
+
+        if(t[idx][open] != -1){
+            return t[idx][open] == 1;
+        }
+        boolean isValid = false;
+        if(s.charAt(idx) == '*'){
+            isValid |= solve(idx+1, open+1, s,t); //'('
+            isValid |= solve(idx+1, open, s,t); //""
+            if(open > 0){
+                isValid |= solve(idx+1, open-1,s,t); //')'
+            }
+        }else{
+            if(s.charAt(idx) == '('){
+                isValid |= solve(idx+1, open+1,s,t);
+            }else if(open > 0){
+                isValid |= solve(idx+1, open-1, s,t);
+            }
+        }
+
+        t[idx][open] = isValid ? 1 : 0;
+        return isValid;
+    }
+    public boolean checkValidString(String s) {
+        int n = s.length();
+        int[][] t = new int[n][n];
+        for(int[] x : t){
+            Arrays.fill(x, -1);
+        }
+        return solve(0,0,s,t);
+    }
+}
