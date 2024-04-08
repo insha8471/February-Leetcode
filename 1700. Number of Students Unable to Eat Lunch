@@ -1,0 +1,40 @@
+Approach : 
+-> Initialize a queue stud to represent the line of students, and we populate it
+     with the preferences of each student from the students array.
+-> Rotation Counting: We then enter a loop where we iterate through the
+     queue while also keeping track of the rotations (rot) to avoid an infinite 
+     loop.
+-> At each iteration, check if the student at the front of the queue (stud.peek())
+     has received their preferred sandwich (sandwiches[i]).If they have, then
+     remove them from the queue (stud.poll()), reset the rotation count (rot=0), 
+     and move to the next student's preference (i++).
+-> If not, then move that student to the end of the queue to simulate rotation 
+     until we've checked all students or rotations exceed the queue size.
+-> Result: Finally,return the size of the remaining queue, which indicates the
+     number of students who couldn't get their preferred sandwich.
+
+Time complexity : O(n)
+Space complexity : O(n)
+
+-------------------------------------------code--------------------------------------------------
+class Solution {
+    public int countStudents(int[] students, int[] sandwiches) {
+        Queue<Integer> stud = new LinkedList<>();
+        for(int x : students){
+            stud.add(x);
+        }        
+        int rot = 0;
+        int i = 0;
+        while(stud.size() !=0 && rot < stud.size()){
+            if(stud.peek() == sandwiches[i]){
+                stud.poll();
+                rot= 0;
+                i++;
+            }else{
+                stud.add(stud.poll());
+                rot++;
+            }
+        }
+        return stud.size();
+    }
+}
