@@ -1,0 +1,24 @@
+Time complexity : O(n)
+
+class Solution {
+    public void dfs(TreeNode root,StringBuilder res, String curr){
+        if(root == null){
+            return;
+        }
+        curr = (char)(root.val + 'a') + curr;   //it takes O(n) times in worst case
+        if(root.left == null && root.right == null){
+            if(res.length() == 0 || (res.toString()).compareTo(curr) > 0){
+                res.setLength(0);
+                res.append(curr);
+            }
+            return;
+        }
+        dfs(root.left,res,curr);
+        dfs(root.right,res,curr);
+    }
+    public String smallestFromLeaf(TreeNode root) {
+        StringBuilder result = new StringBuilder(""); 
+        dfs(root,result ,"");
+        return result.toString();
+    }
+}
