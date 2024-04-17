@@ -1,3 +1,5 @@
+Appproach 1 : DFS
+
 Time complexity : O(n)
 
 class Solution {
@@ -20,5 +22,42 @@ class Solution {
         StringBuilder result = new StringBuilder(""); 
         dfs(root,result ,"");
         return result.toString();
+    }
+}
+
+**************************************************************************************************************************************************************
+Approach 2 : BFS
+
+
+class Solution {
+    public String smallestFromLeaf(TreeNode root) {
+        Queue<Pair<TreeNode, String>> q = new LinkedList<>();
+
+        String res = "";
+
+        q.add(new Pair<>(root, String.valueOf((char)(root.val+'a'))));
+
+        while(!q.isEmpty()){
+            Pair<TreeNode, String> pair = q.poll();
+
+            TreeNode node = pair.getKey();
+            String ch = pair.getValue();
+
+            if(node.left == null && node.right == null){
+                if(res.equals("") || res.compareTo(ch) > 0){
+                    res = ch;
+                }
+            }
+
+            if(node.left !=  null){
+                q.add(new Pair<>(node.left, (char)(node.left.val + 'a') + ch));
+            }
+
+            if(node.right != null){
+                q.add(new Pair<>(node.right, (char)(node.right.val + 'a') + ch));
+            }
+        }
+
+        return res;
     }
 }
