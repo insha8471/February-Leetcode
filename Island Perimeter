@@ -22,3 +22,47 @@ class Solution {
         return perimeter;
     }
 }
+
+*********************************************************************************************************************
+
+Approach : DFS
+Time complexity : O(n*m)
+Space complexity : O(n*m)
+
+class Solution {
+    int m;
+    int n;
+    public void dfs(int i, int j, int[][] grid, int[] res){
+        if(i < 0 || i >= n || j < 0 || j >= m || grid[i][j] == 0){
+            res[0] += 1;
+            return;
+        }
+        if(grid[i][j] == -1){
+            return;
+        }
+
+        grid[i][j] = -1;
+
+        dfs(i+1,j,grid,res);
+        dfs(i-1,j,grid,res);
+        dfs(i,j+1,grid,res);
+        dfs(i,j-1,grid,res);
+    }
+    public int islandPerimeter(int[][] grid) {
+        n = grid.length;
+        m = grid[0].length;
+
+        int[] res = new int[1];
+
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j] == 1){
+                    dfs(i,j,grid,res);
+                    return res[0];
+                }
+            }
+        }
+        return res[0];
+    }
+}
+
