@@ -1,0 +1,60 @@
+Approach : DFS
+Time complexity : O(n*m)
+Space complexity : O(n*m)
+
+
+class Solution {
+    int bottom_i;
+    int bottom_j;
+    public void dfs(int i, int j, int[][] land) {
+        if (i >= land.length || j >= land[0].length || land[i][j] == 0) {
+            return;
+        }
+
+        if(land[i][j] == -1){
+            return;
+        }
+        land[i][j] = -1;
+
+        bottom_i = Math.max(bottom_i, i);
+        bottom_j = Math.max(bottom_j, j);
+
+        dfs(i + 1, j, land);
+        dfs(i, j + 1, land);
+    }
+
+    public int[][] findFarmland(int[][] land) {
+        int n = land.length;
+        int m = land[0].length;
+        List<List<Integer>> list = new ArrayList<>();
+
+        for (int i = 0; i <n; i++) {
+            for (int j = 0; j <m; j++) {
+                if (land[i][j] == 1) {
+                    bottom_i = i;
+                    bottom_j = j;
+                    dfs(i, j, land);
+                    List<Integer> ls = new ArrayList<>();
+                    ls.add(i);
+                    ls.add(j);
+                    ls.add(bottom_i);
+                    ls.add(bottom_j);
+                    list.add(ls);
+                }
+            }
+        }
+
+        int size = list.size();
+
+        int[][] res = new int[size][4];
+        int i = 0;
+        for (List<Integer> ls : list) {
+            res[i][0] = ls.get(0);
+            res[i][1] = ls.get(1);
+            res[i][2] = ls.get(2);
+            res[i][3] = ls.get(3);
+            i++;
+        }
+        return res;
+    }
+}
