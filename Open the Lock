@@ -1,0 +1,59 @@
+Time complexity : O(n^w) // were n= 10 slots in each wheel and w=4 wheels.
+Space complexity : O(n^4)
+
+class Solution {
+    public void fillNeighbours(Queue<String> q, StringBuilder curr , Set<String> dead){
+        for(int i=0;i<4;i++){
+            char ch = curr.charAt(i);
+
+            char dec = (ch == '0') ? '9' : (char)(ch-1);
+            char inc = (ch == '9') ? '0' : (char)(ch+1);
+
+            curr.setCharAt(i, dec);
+            String decStr = curr.toString();
+            if(!dead.contains(decStr)){
+                dead.add(decStr);
+                q.add(decStr);
+            }
+
+            curr.setCharAt(i, inc);
+            String incStr = curr.toString();
+            if(!dead.contains(incStr)){
+                dead.add(incStr);
+                q.add(incStr);
+            }
+            curr.setCharAt(i, ch);
+        }
+    }
+    public int openLock(String[] deadends, String target) {
+        Set<String> dead = new HashSet<>();
+        for(String deadend : deadends){
+            dead.add(deadend);
+        }
+
+        String start = "0000";
+        if(dead.contains(start)){
+            return -1;
+        }
+
+        Queue<String> q = new LinkedList<>();
+        q.add(start);
+
+        int level = 0;
+        while(!q.isEmpty()){
+            int n = q.size();
+
+            while(n-- > 0){
+                String curr = q.poll();
+                if(curr.equals(target)){
+                    return level;
+                }
+                StringBuilder sb = new StringBuilder(curr);
+                fillNeighbours(q,sb,dead);
+            }
+            level++;
+        }
+        return -1;
+    }
+    
+}
