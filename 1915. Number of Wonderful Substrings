@@ -1,0 +1,29 @@
+Time complexity : O(n)
+
+class Solution {
+    public long wonderfulSubstrings(String word) {
+        Map<Long, Long> mp = new HashMap<>();
+
+        mp.put(0L, 1L);
+        long cumXor = 0;
+        long result = 0;
+
+        for(char ch : word.toCharArray()){
+            int shift = ch - 'a';
+
+            cumXor ^= (1 << shift);
+
+            result += mp.getOrDefault(cumXor, 0L);
+
+            for(char ch1='a';ch1 <= 'j';ch1++){
+                shift = ch1-'a';
+
+                long checkXor = (cumXor ^ (1 << shift));
+
+                result += mp.getOrDefault(checkXor, 0L);
+            }
+            mp.put(cumXor, mp.getOrDefault(cumXor, 0L)+1);
+        }
+        return result;
+    }
+}
